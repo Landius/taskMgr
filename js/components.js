@@ -12,7 +12,7 @@ const newtabSection = {
     },
     computed: {
         engines: function (){
-            return this.$store.state.storage.newtab.engines;
+            return this.$store.state.storage.settings.newtab.engines;
         }
     },
     methods:{
@@ -63,7 +63,7 @@ const taskSection = {
                 'quadrant-2': [],
                 'quadrant-3': []
             };
-            for(let task of this.$store.state.storage.task){
+            for(let task of this.$store.state.storage.tasks){
                 if(task.done === false){
                     let key = 'quadrant-' + task.quadrant;
                     taskData[key].push(task);
@@ -85,7 +85,7 @@ const summarySection = {
     computed: {
         tasks: function () {
             const taskData = [];
-            for(const task of this.$store.state.storage.task){
+            for(const task of this.$store.state.storage.tasks){
                 if(task.done == true){
                      taskData.push(task);
                 }
@@ -136,7 +136,7 @@ const timerSection = {
         },
         unfinishTasks: function () {
             const tasks = [];
-            for(const task of this.$store.state.storage.task){
+            for(const task of this.$store.state.storage.tasks){
                 if(task.done == false){
                      tasks.push(task);
                 }
@@ -160,14 +160,12 @@ const timerSection = {
                     confirmCallback: this.focusTimeInput,
                     cancelCallback: this.focusTimeInput
                 });
-                this.focusTimeInput();
             }else if(totalSec <= 0){
                 this.$store.commit('showNotify', {
                     msg:'时间须大于零', 
                     confirmCallback: this.focusTimeInput,
                     cancelCallback: this.focusTimeInput
                 });
-                this.focusTimeInput();
             }else{
                 let newTimer = {timeStr, totalSec};
                 this.$store.commit('addTimer', newTimer);
@@ -235,7 +233,7 @@ const timerSection = {
         <div id="timer">
             <div id="time-container">
                 <time v-show="!showDoneBtn">{{timeStr}}</time>
-                <input v-show="showDoneBtn" v-model="timeInput" :size="5" class="editing" :placeholder="timeStr"></input>
+                <input v-show="showDoneBtn" v-model="timeInput" :style="'width:'+timeStr.length+'ch'" class="editing" :placeholder="timeStr"></input>
             </div>
             <div id="timer-controllers">
                 <button v-show="showEditBtn" @click="editTimer" id="edit-timer" class="edit-icon medium-btn"></button>
@@ -322,7 +320,7 @@ const taskDetail = {
             this.task = {...this.template};
             let id = this.$store.state.taskDetail.taskId;
             this.task.id = id;
-            for(let task of this.$store.state.storage.task){
+            for(let task of this.$store.state.storage.tasks){
                 if(task.id == id){
                     this.task = {...task};
                 }
@@ -338,7 +336,7 @@ const taskDetail = {
                 this.$store.commit('showNotify', {msg:'分类不能为空！'});
                 return ;
             }
-            const tasks = this.$store.state.storage.task;
+            const tasks = this.$store.state.storage.tasks;
             let index = -1;
             for(let i=0; i<tasks.length; i++){
                 if(this.task.id == tasks[i].id){

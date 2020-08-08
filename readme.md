@@ -4,7 +4,10 @@ A simple daily task manager extension builded with Vue and Vuex, working in prog
 
 ## todo
 
-merge SVGs to main.css by using `data:image/svg+xml` scheme to reduce request?
+- merge SVGs to main.css by using `data:image/svg+xml` scheme to reduce request?
+- Use Vue `render` function instead of `eval` template compiling to avoid webextension CSP restriction
+- storage data load on demand
+- drag to sort task item.(splice then insert?)
 
 new tab:  
 
