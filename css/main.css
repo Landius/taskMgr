@@ -163,13 +163,20 @@ section#setting{
     padding: 5px;
     border-radius: 3px;
 }
+#task div.note-wr,
+#task div.remove-wr{
+    /* hide unwanted icons */
+    display: none;
+}
 
 /* note */
 #note div.task-container{
     max-width: 600px;
     margin: auto;
 }
-#note div.done-wr{
+#note div.done-wr,
+#note div.detail-wr{
+    /* hide unwanted icons */
     display: none;
 }
 
@@ -286,15 +293,13 @@ div.task-title{
     white-space: nowrap;
     max-width: 100%;
 }
-div.done-wr,
-div.detail-wr{
+div.icon-wr{
     flex: 0 0 3em;
     height: 3em;
     padding: .75em;
     box-sizing: border-box;
 }
-div.done,
-div.detail{
+div.icon-wr > div{
     cursor: pointer;
     width: 100%;
     height: 100%;
@@ -302,8 +307,7 @@ div.detail{
     background-position: center;
     background-size: 22px;
 }
-div.done:active,
-div.detail:active{
+div.icon-wr > div:active{
     background-size: 20px;
 }
 
@@ -453,7 +457,7 @@ span.quadrant-input-3{
     background-image: url('../img/list-check-2.svg');
 }
 .note-icon{
-    background-image: url('../img/list-check.svg');
+    background-image: url('../img/edit-2-line.svg');
 }
 .timer-icon{
     background-image: url('../img/timer-flash-line.svg');

@@ -16,7 +16,7 @@ function init(){
             {
                 "id": 0,
                 "quadrant": 0,
-                "done": false,
+                "done": 0,
                 "title": "重要，紧急",
                 "desc": "desc",
                 "note": "note",
@@ -25,7 +25,7 @@ function init(){
             {
                 "id": 1,
                 "quadrant": 1,
-                "done": false,
+                "done": 0,
                 "title": "重要，不急",
                 "desc": "desc",
                 "note": "note",
@@ -34,7 +34,7 @@ function init(){
             {
                 "id": 2,
                 "quadrant": 2,
-                "done": false,
+                "done": 0,
                 "title": "不重要，紧急",
                 "desc": "desc",
                 "note": "note",
@@ -43,7 +43,7 @@ function init(){
             {
                 "id": 3,
                 "quadrant": 3,
-                "done": false,
+                "done": 0,
                 "title": "不重要，不急",
                 "desc": "desc",
                 "note": "note",

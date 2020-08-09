@@ -87,10 +87,11 @@ const noteSection = {
         tasks: function () {
             const taskData = [];
             for(const task of this.$store.state.storage.tasks){
-                if(task.done == true){
+                if(task.done > 0){
                      taskData.push(task);
                 }
             }
+            taskData.sort((a, b)=>{ return b.done - a.done; });
             return taskData;
         }
     },
@@ -285,6 +286,9 @@ const taskContainer = {
                     }else{
                         this.$store.commit('selectTask', this.task.id);
                     }
+                },
+                removeTask: function () {
+                    this.$store.commit('removeTask', this.task.id);
                 }
             },
             template: `
@@ -295,10 +299,16 @@ const taskContainer = {
                     <div class="task-title-wr">
                         <div class="task-title">{{task.title}}</div>
                     </div>
-                    <div class="done-wr">
+                    <div class="note-wr icon-wr">
+                        <div @click="showDetail" class="note note-icon"></div>
+                    </div>
+                    <div class="done-wr icon-wr">
                         <div @click="doneTask" class="done checked-icon"></div>
                     </div>
-                    <div class="detail-wr">
+                    <div class="remove-wr icon-wr">
+                        <div @click="removeTask" class="remove trash-icon"></div>
+                    </div>
+                    <div class="detail-wr icon-wr">
                         <div @click="showDetail" class="detail detail-icon"></div>
                     </div>
                 </div>`
@@ -307,7 +317,7 @@ const taskContainer = {
 };
 const taskDetail = {
     data: function (){
-        let template = {id: -1, title: '', desc: '', note: '', timmer: [], quadrant: -1, done: false};
+        let template = {id: -1, title: '', desc: '', note: '', timmer: [], quadrant: -1, done: 0};
         return {
             template: template,
             task: {...template}

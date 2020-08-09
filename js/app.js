@@ -2,10 +2,10 @@ Vue.component('task-container', taskContainer);
 Vue.component('task-detail', taskDetail);
 Vue.component('notify-container', notifyContainer);
 // Vue.use(Vuex); // no need in if Vuex is declared via <script> element
-
+let store;
 chrome.runtime.sendMessage({cmd: 'getStorage'}, storage=>{
 
-const store = new Vuex.Store({
+store = new Vuex.Store({
     strict: true,
     state: {
         storage: storage,
@@ -51,7 +51,7 @@ const store = new Vuex.Store({
         doneTask: function(state, id){
             for(let task of state.storage.tasks){
                 if(task.id == id){
-                    task.done = true;
+                    task.done = (new Date ()).getTime();
                 }
             }
         },
