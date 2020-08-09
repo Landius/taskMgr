@@ -81,7 +81,7 @@ const taskSection = {
             </div>
         </section>`
 };
-const summarySection = {
+const noteSection = {
     computed: {
         tasks: function () {
             const taskData = [];
@@ -94,7 +94,7 @@ const summarySection = {
         }
     },
     template: `
-        <section id="summary">
+        <section id="note">
             <div is="task-container" :tasks="tasks"></div>
         </section>`
 };
@@ -306,7 +306,7 @@ const taskContainer = {
 };
 const taskDetail = {
     data: function (){
-        let template = {id: -1, title: '', desc: '', summary: '', timmer: [], quadrant: -1, done: false};
+        let template = {id: -1, title: '', desc: '', note: '', timmer: [], quadrant: -1, done: false};
         return {
             template: template,
             task: {...template}
@@ -386,7 +386,7 @@ const taskDetail = {
             <div>
                 <div>总结</div>
                 <div>
-                    <textarea id="task-summary-input" v-model="task.summary" placeholder="事项总结"></textarea>
+                    <textarea id="task-note-input" v-model="task.note" placeholder="事项总结"></textarea>
                 </div>
             </div>
             <div>

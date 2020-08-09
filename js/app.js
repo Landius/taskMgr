@@ -170,7 +170,7 @@ let app = new Vue({
         },
         showRemoveBtn: function (){
             return show = this.$store.state.selected.taskIds.length > 0 && 
-                (this.sectionComponent == 'taskSection' || this.sectionComponent == 'summarySection');
+                (this.sectionComponent == 'taskSection' || this.sectionComponent == 'noteSection');
         }
     },
     methods: {
@@ -185,8 +185,8 @@ let app = new Vue({
                     case 'switch-task':
                         section = 'taskSection';
                         break;
-                    case 'switch-summary':
-                        section = 'summarySection';
+                    case 'switch-note':
+                        section = 'noteSection';
                         break;
                     case 'switch-timer':
                         section = 'timerSection';
@@ -220,7 +220,7 @@ let app = new Vue({
     components: {
         newtabSection: newtabSection,
         taskSection: taskSection,
-        summarySection: summarySection,
+        noteSection: noteSection,
         timerSection: timerSection,
         settingSection: settingSection
     }

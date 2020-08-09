@@ -89,7 +89,7 @@ main{
 section#newtab,
 section#to-do,
 section#timer,
-section#summary,
+section#note,
 section#setting{
     box-sizing: border-box;
     width: 100%;
@@ -164,12 +164,12 @@ section#setting{
     border-radius: 3px;
 }
 
-/* summary */
-#summary div.task-container{
+/* note */
+#note div.task-container{
     max-width: 600px;
     margin: auto;
 }
-#summary div.done-wr{
+#note div.done-wr{
     display: none;
 }
 
@@ -452,7 +452,7 @@ span.quadrant-input-3{
 .task-icon{
     background-image: url('../img/list-check-2.svg');
 }
-.summary-icon{
+.note-icon{
     background-image: url('../img/list-check.svg');
 }
 .timer-icon{

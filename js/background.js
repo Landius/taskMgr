@@ -1,6 +1,6 @@
 /**
  * a simple backend to
- *   keep the state for sections of app.js
+ *   keep the state of sections of app.js
  *   sync data between chrome.storage and app.js
  * 
  * Since chrome extension async api doesn't support promise, use callback
@@ -19,7 +19,7 @@ function init(){
                 "done": false,
                 "title": "重要，紧急",
                 "desc": "desc",
-                "summary": "summary",
+                "note": "note",
                 "timer": [0, 1]
             },
             {
@@ -28,7 +28,7 @@ function init(){
                 "done": false,
                 "title": "重要，不急",
                 "desc": "desc",
-                "summary": "summary",
+                "note": "note",
                 "timer": [0, 1]
             },
             {
@@ -37,7 +37,7 @@ function init(){
                 "done": false,
                 "title": "不重要，紧急",
                 "desc": "desc",
-                "summary": "summary",
+                "note": "note",
                 "timer": [0, 1]
             },
             {
@@ -46,7 +46,7 @@ function init(){
                 "done": false,
                 "title": "不重要，不急",
                 "desc": "desc",
-                "summary": "summary",
+                "note": "note",
                 "timer": [0, 1]
             }
         ],
@@ -61,7 +61,7 @@ function init(){
             "task": {
                 taskIndex: 4
             },
-            "summary": {},
+            "note": {},
             "timer": {
                 default: '45:00',
                 timerIndex: 9,
@@ -72,11 +72,10 @@ function init(){
     let data = null;
     getData(null).then(result=>{
         console.log(result);
-        Object.keys(result).length != 0 ? data = result : data = defaultData;
+        data = Object.keys(result).length != 0 ? result : defaultData;
     });
 
     chrome.runtime.onMessage.addListener(handleMsg);
-
     
     function handleMsg(msg, sender, sendResponse){
         console.log('msg:', msg);
