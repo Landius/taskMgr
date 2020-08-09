@@ -3,6 +3,7 @@ const newtabSection = {
     mounted: function (){
         this.updateTime();
         const i = setInterval(this.updateTime, 1000);
+        document.querySelector('#search-input').focus();
     },
     data: function (){
         return {

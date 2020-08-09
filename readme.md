@@ -11,7 +11,7 @@ A simple daily task manager extension builded with Vue and Vuex, working in prog
 
 new tab:  
 
-- focus on searchbox when switch to newtab page.
+- [x] focus on searchbox when switch to newtab page.
 
 summary:
 
