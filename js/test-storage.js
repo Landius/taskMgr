@@ -13,7 +13,7 @@ const storage = {
             "done": false,
             "title": "重要，紧急",
             "desc": "desc",
-            "summary": "summary",
+            "note": "note",
             "timer": [0, 1]
         },
         {
@@ -22,7 +22,7 @@ const storage = {
             "done": false,
             "title": "重要，不急",
             "desc": "desc",
-            "summary": "summary",
+            "note": "note",
             "timer": [0, 1]
         },
         {
@@ -31,7 +31,7 @@ const storage = {
             "done": false,
             "title": "不重要，紧急",
             "desc": "desc",
-            "summary": "summary",
+            "note": "note",
             "timer": [0, 1]
         },
         {
@@ -40,7 +40,7 @@ const storage = {
             "done": false,
             "title": "不重要，不急",
             "desc": "desc",
-            "summary": "summary",
+            "note": "note",
             "timer": [0, 1]
         }
     ],
@@ -60,7 +60,7 @@ const storage = {
         "task": {
             taskIndex: 4
         },
-        "summary": {},
+        "note": {},
         "timer": {
             default: '45:00',
             timerIndex: 9

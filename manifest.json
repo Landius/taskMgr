@@ -1,0 +1,33 @@
+{
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "taskMgr@landius.github.com",
+            "strict_min_version": "59.0"
+          }
+    },
+
+    "manifest_version": 2,
+    "name": "taskMgr",
+    "version": "0.1",
+
+    "description": "A simple daily task manager",
+    "icons": {
+        "48": "img/icon.svg"
+    },
+
+    "permissions": ["tabs", "storage", "notifications"],
+
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+
+    "browser_action": {
+        "default_popup": "/index.html"
+    },
+    
+    "background": {
+        "scripts": ["js/background.js"]
+    },
+
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';"
+}

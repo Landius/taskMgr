@@ -3,7 +3,12 @@
     --transparent-bg-color: #fffc;
     --box-shadow: 0 1px 3px 0 #0003;
     --box-shadow-actived: 0 1px 2px 0px #0002;
+    --inset-box-shadow: inset 0 0 3px 0 #0003;
     --transition-duration-fast: 150ms;
+}
+@font-face{
+    font-family: 'Inconsolata';
+    src: local('Inconsolata'), url('/font/Inconsolata-Regular.ttf');
 }
 body{
     all: unset;
@@ -88,7 +93,7 @@ main{
 section#newtab,
 section#to-do,
 section#timer,
-section#summary,
+section#note,
 section#setting{
     box-sizing: border-box;
     width: 100%;
@@ -112,7 +117,7 @@ section#setting{
     padding: .5rem 1rem;
     color: #233;
     font-size: 2rem;
-    font-family: monospace;
+    font-family: 'Inconsolata';
     border-radius: .5rem;
     background-color: #fff;
 }
@@ -158,18 +163,33 @@ section#setting{
     padding: 8px;
 }
 #task div.task-container{
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--inset-box-shadow);
     padding: 5px;
     border-radius: 3px;
 }
+#task div.done-wr,
+#task div.detail-wr{
+    /* show icons by needs*/
+    display: block;
+}
 
-/* summary */
-#summary div.task-container{
-    max-width: 600px;
+/* note */
+#note{
+    display: flex
+}
+#note > div{
+    flex: 0 1 50%;
+    /* margin: 2rem 4rem; */
+    padding: 8px;
+}
+#note div.task-container{
     margin: auto;
 }
-#summary div.done-wr{
-    display: none;
+#note div.remove-wr,
+#marked-tasks-wr div.note-wr,
+#left-tasks-wr div.bookmark-wr{
+    /* show icons by needs */
+    display: block;
 }
 
 /* timer */
@@ -181,7 +201,8 @@ section#setting{
 #time-container > input.editing{
     display: block;
     font-size: 5rem;
-    font-family: monospace;
+    color: #233a;
+    font-family: 'Inconsolata';
 }
 #time-container > input.editing{
     padding: 0 .5em;
@@ -204,6 +225,34 @@ section#setting{
 #timer-controllers button.medium-btn:hover{
     opacity: .8;
 }
+.linked-tasks,
+.unfinish-tasks{
+    margin: 3rem auto 1rem auto;
+}
+.unfinish-tasks{
+    width: 800px;
+}
+.linked-tasks{
+    width: 400px;
+}
+.linked-tasks .task-item{
+    flex: 1 1 100%;
+}
+.linked-tasks div.link-wr,
+.unfinish-tasks div.link-wr{
+    display: block;
+    opacity: .1;
+}
+.linked-tasks div.link-wr:hover,
+.unfinish-tasks div.link-wr:hover{
+    opacity: .5;
+}
+.linked-tasks div.link-wr:active,
+.linked-tasks div.link-wr.linked,
+.unfinish-tasks div.link-wr:active,
+.unfinish-tasks div.link-wr.linked{
+    opacity: 1;
+}
 
 /* task-container */
 div.task-container{
@@ -216,16 +265,17 @@ div.task-container{
     overflow: auto;
 }
 @media screen and (min-width: 1400px){
-    #task div.task-item{
+    div.task-item{
         display: flex;
         flex: 0 0 calc(50% - 1em);
         min-width: 0;
     }
 }
 @media screen and (max-width: 1400px){
-    #task div.task-item{
+    div.task-item{
         display: flex;
-        flex: 1 1 15em;
+        /* flex: 1 1 15em; */
+        flex: 1 1 calc(100% - 2em);
         min-width: 0;
     }
 }
@@ -285,15 +335,15 @@ div.task-title{
     white-space: nowrap;
     max-width: 100%;
 }
-div.done-wr,
-div.detail-wr{
+div.icon-wr{
+    /* hide icons by default */
+    display: none;
     flex: 0 0 3em;
     height: 3em;
     padding: .75em;
     box-sizing: border-box;
 }
-div.done,
-div.detail{
+div.icon-wr > div{
     cursor: pointer;
     width: 100%;
     height: 100%;
@@ -301,13 +351,12 @@ div.detail{
     background-position: center;
     background-size: 22px;
 }
-div.done:active,
-div.detail:active{
+div.icon-wr > div:active{
     background-size: 20px;
 }
 
 
-/* popup */
+/* task detail (popup) */
 .popup-layer{
     position: fixed;
     width: 100vw;
@@ -316,12 +365,11 @@ div.detail:active{
     z-index: 9;
 }
 #detail-container{
-    width: 30rem;
+    width: 36rem;
     background-color: #fdfdfd;
-    margin: 5rem calc((100% - 30rem) / 2);
+    margin: 5rem auto;
     padding: 1rem;
     border-radius: 3px;
-    position: fixed;
     box-shadow: 0 2px 15px 0 #0003;
 }
 #detail-container > div{
@@ -357,7 +405,12 @@ div.detail:active{
 }
 #detail-container textarea{
     font-size: .9rem;
+}
+#task-desc-input{
     height: 8rem;
+}
+#task-note-input{
+    height: 16rem;
 }
 #detail-container button{
     margin-left: 1rem;
@@ -379,7 +432,7 @@ div.detail:active{
     cursor: pointer;
 }
 #detail-container #task-quadrant-input span.selected{
-    border-color: #888;
+    border-color: #ccc;
 }
 #detail-container > div:last-child{
     display: block;
@@ -451,8 +504,11 @@ span.quadrant-input-3{
 .task-icon{
     background-image: url('../img/list-check-2.svg');
 }
-.summary-icon{
-    background-image: url('../img/list-check.svg');
+.note-icon{
+    background-image: url('../img/edit-2-line.svg');
+}
+.bookmark-icon{
+    background-image: url('../img/bookmark-3-line.svg');
 }
 .timer-icon{
     background-image: url('../img/timer-flash-line.svg');
@@ -468,4 +524,7 @@ span.quadrant-input-3{
 }
 .pause-icon{
     background-image: url('../img/pause-mini-fill.svg');
+}
+.link-icon{
+    background-image: url('../img/links-line.svg');
 }
