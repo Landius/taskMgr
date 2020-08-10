@@ -16,6 +16,7 @@ new tab:
 summary:
 
 - [x] sort tasks by done order. (by adding timestamp to task?)
+- [ ] use v-show instead of css?
 - left panel to show summarized tasks, right panel show finished but not summarized tasks?
 - add a filter to filter tasks by quadrant
 - add a searchbox to find specific task

@@ -55,6 +55,16 @@ store = new Vuex.Store({
                 }
             }
         },
+        markTask: function (state, id) {
+            for(let task of state.storage.tasks){
+                if(task.id == id){
+                    task.bookmark = true;
+                }
+            }
+        },
+        takeNote: function (state, id) {
+            // todo, show specified task with panel
+        },
         showDetail: function (state, id){
             state.taskDetail.taskId = id;
             state.taskDetail.showPopup = true;

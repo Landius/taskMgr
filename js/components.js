@@ -65,7 +65,7 @@ const taskSection = {
                 'quadrant-3': []
             };
             for(let task of this.$store.state.storage.tasks){
-                if(task.done === false){
+                if(task.done == 0){
                     let key = 'quadrant-' + task.quadrant;
                     taskData[key].push(task);
                 }
@@ -84,20 +84,30 @@ const taskSection = {
 };
 const noteSection = {
     computed: {
-        tasks: function () {
-            const taskData = [];
-            for(const task of this.$store.state.storage.tasks){
-                if(task.done > 0){
-                     taskData.push(task);
-                }
-            }
-            taskData.sort((a, b)=>{ return b.done - a.done; });
-            return taskData;
+        markedTasks: function () {
+            console.log('markedTasks: data changed');
+            return this.$store.state.storage.tasks.filter(task=>{
+                return task.done > 0 && task.bookmark;
+            }).sort((a, b)=>{
+                return b.done - a.done;
+            });
+        },
+        leftTasks: function () {
+            return this.$store.state.storage.tasks.filter(task=>{
+                return task.done > 0 && !task.bookmark;
+            }).sort((a, b)=>{
+                return b.done - a.done;
+            });
         }
     },
     template: `
         <section id="note">
-            <div is="task-container" :tasks="tasks"></div>
+        <div id="marked-tasks-wr">
+            <div is="task-container" :tasks="markedTasks"></div>
+        </div>
+        <div id="left-tasks-wr">
+            <div is="task-container" :tasks="leftTasks"></div>
+        </div>
         </section>`
 };
 const timerSection = {
@@ -273,6 +283,12 @@ const taskContainer = {
                 }
             },
             methods: {
+                takeNote: function () {
+                    this.$store.commit('showDetail', this.task.id);
+                },
+                markTask: function () {
+                    this.$store.commit('markTask', this.task.id);
+                },
                 showDetail: function (){
                     this.$store.commit('showDetail', this.task.id);
                 },
@@ -300,7 +316,10 @@ const taskContainer = {
                         <div class="task-title">{{task.title}}</div>
                     </div>
                     <div class="note-wr icon-wr">
-                        <div @click="showDetail" class="note note-icon"></div>
+                        <div @click="takeNote" class="note note-icon"></div>
+                    </div>
+                    <div class="bookmark-wr icon-wr">
+                        <div @click="markTask" class="bookmark bookmark-icon"></div>
                     </div>
                     <div class="done-wr icon-wr">
                         <div @click="doneTask" class="done checked-icon"></div>
@@ -317,7 +336,7 @@ const taskContainer = {
 };
 const taskDetail = {
     data: function (){
-        let template = {id: -1, title: '', desc: '', note: '', timmer: [], quadrant: -1, done: 0};
+        let template = {id: -1, title: '', desc: '', note: '', bookmark: false, timmer: [], quadrant: -1, done: 0};
         return {
             template: template,
             task: {...template}
@@ -374,7 +393,7 @@ const taskDetail = {
             return classObject;
         },
         changeQuadrant: function (e){
-            if(e.target.tagName == 'SPAN'){
+            if(e.target.tagName == 'SPAN' && this.task.done == 0){
                 this.task.quadrant = Number(e.target.dataset.quadrant);
             }
         }
@@ -385,17 +404,17 @@ const taskDetail = {
             <div>
                 <div>标题</div>
                 <div>
-                    <input type="text" v-model="task.title" placeholder="事项">
+                    <input type="text" v-model="task.title" placeholder="事项" :readonly="this.task.done>0">
                     </div>
             </div>
             <div>
                 <div>描述</div>
                 <div>
-                    <textarea id="task-desc-input" v-model="task.desc" placeholder="事项描述"></textarea>
+                    <textarea id="task-desc-input" v-model="task.desc" placeholder="事项描述" :readonly="this.task.done>0"></textarea>
                 </div>
             </div>
             <div>
-                <div>总结</div>
+                <div>记录</div>
                 <div>
                     <textarea id="task-note-input" v-model="task.note" placeholder="事项总结"></textarea>
                 </div>

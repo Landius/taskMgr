@@ -164,18 +164,28 @@ section#setting{
     border-radius: 3px;
 }
 #task div.note-wr,
-#task div.remove-wr{
+#task div.remove-wr,
+#task div.bookmark-wr{
     /* hide unwanted icons */
     display: none;
 }
 
 /* note */
+#note{
+    display: flex
+}
+#note > div{
+    flex: 0 1 50%;
+    /* margin: 2rem 4rem; */
+    padding: 8px;
+}
 #note div.task-container{
-    max-width: 600px;
     margin: auto;
 }
 #note div.done-wr,
-#note div.detail-wr{
+#note div.detail-wr,
+#marked-tasks-wr div.bookmark-wr,
+#left-tasks-wr div.note-wr{
     /* hide unwanted icons */
     display: none;
 }
@@ -224,16 +234,17 @@ div.task-container{
     overflow: auto;
 }
 @media screen and (min-width: 1400px){
-    #task div.task-item{
+    div.task-item{
         display: flex;
         flex: 0 0 calc(50% - 1em);
         min-width: 0;
     }
 }
 @media screen and (max-width: 1400px){
-    #task div.task-item{
+    div.task-item{
         display: flex;
-        flex: 1 1 15em;
+        /* flex: 1 1 15em; */
+        flex: 1 1 calc(100% - 2em);
         min-width: 0;
     }
 }
@@ -312,7 +323,7 @@ div.icon-wr > div:active{
 }
 
 
-/* popup */
+/* task detail (popup) */
 .popup-layer{
     position: fixed;
     width: 100vw;
@@ -321,12 +332,11 @@ div.icon-wr > div:active{
     z-index: 9;
 }
 #detail-container{
-    width: 30rem;
+    width: 36rem;
     background-color: #fdfdfd;
-    margin: 5rem calc((100% - 30rem) / 2);
+    margin: 5rem auto;
     padding: 1rem;
     border-radius: 3px;
-    position: fixed;
     box-shadow: 0 2px 15px 0 #0003;
 }
 #detail-container > div{
@@ -362,7 +372,12 @@ div.icon-wr > div:active{
 }
 #detail-container textarea{
     font-size: .9rem;
+}
+#task-desc-input{
     height: 8rem;
+}
+#task-note-input{
+    height: 16rem;
 }
 #detail-container button{
     margin-left: 1rem;
@@ -458,6 +473,9 @@ span.quadrant-input-3{
 }
 .note-icon{
     background-image: url('../img/edit-2-line.svg');
+}
+.bookmark-icon{
+    background-image: url('../img/bookmark-3-line.svg');
 }
 .timer-icon{
     background-image: url('../img/timer-flash-line.svg');

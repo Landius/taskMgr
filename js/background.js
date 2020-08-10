@@ -20,6 +20,7 @@ function init(){
                 "title": "重要，紧急",
                 "desc": "desc",
                 "note": "note",
+                "bookmark": false,
                 "timer": [0, 1]
             },
             {
@@ -29,6 +30,7 @@ function init(){
                 "title": "重要，不急",
                 "desc": "desc",
                 "note": "note",
+                "bookmark": false,
                 "timer": [0, 1]
             },
             {
@@ -38,6 +40,7 @@ function init(){
                 "title": "不重要，紧急",
                 "desc": "desc",
                 "note": "note",
+                "bookmark": false,
                 "timer": [0, 1]
             },
             {
@@ -47,6 +50,7 @@ function init(){
                 "title": "不重要，不急",
                 "desc": "desc",
                 "note": "note",
+                "bookmark": false,
                 "timer": [0, 1]
             }
         ],
@@ -72,7 +76,8 @@ function init(){
     let data = null;
     getData(null).then(result=>{
         console.log(result);
-        data = Object.keys(result).length != 0 ? result : defaultData;
+        // data = Object.keys(result).length != 0 ? result : defaultData;
+        data = defaultData;
     });
 
     chrome.runtime.onMessage.addListener(handleMsg);
