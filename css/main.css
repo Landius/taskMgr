@@ -167,11 +167,10 @@ section#setting{
     padding: 5px;
     border-radius: 3px;
 }
-#task div.note-wr,
-#task div.remove-wr,
-#task div.bookmark-wr{
-    /* hide unwanted icons */
-    display: none;
+#task div.done-wr,
+#task div.detail-wr{
+    /* show icons by needs*/
+    display: block;
 }
 
 /* note */
@@ -186,12 +185,11 @@ section#setting{
 #note div.task-container{
     margin: auto;
 }
-#note div.done-wr,
-#note div.detail-wr,
-#marked-tasks-wr div.bookmark-wr,
-#left-tasks-wr div.note-wr{
-    /* hide unwanted icons */
-    display: none;
+#note div.remove-wr,
+#marked-tasks-wr div.note-wr,
+#left-tasks-wr div.bookmark-wr{
+    /* show icons by needs */
+    display: block;
 }
 
 /* timer */
@@ -226,6 +224,34 @@ section#setting{
 }
 #timer-controllers button.medium-btn:hover{
     opacity: .8;
+}
+.linked-tasks,
+.unfinish-tasks{
+    margin: 3rem auto 1rem auto;
+}
+.unfinish-tasks{
+    width: 800px;
+}
+.linked-tasks{
+    width: 400px;
+}
+.linked-tasks .task-item{
+    flex: 1 1 100%;
+}
+.linked-tasks div.link-wr,
+.unfinish-tasks div.link-wr{
+    display: block;
+    opacity: .1;
+}
+.linked-tasks div.link-wr:hover,
+.unfinish-tasks div.link-wr:hover{
+    opacity: .5;
+}
+.linked-tasks div.link-wr:active,
+.linked-tasks div.link-wr.linked,
+.unfinish-tasks div.link-wr:active,
+.unfinish-tasks div.link-wr.linked{
+    opacity: 1;
 }
 
 /* task-container */
@@ -310,6 +336,8 @@ div.task-title{
     max-width: 100%;
 }
 div.icon-wr{
+    /* hide icons by default */
+    display: none;
     flex: 0 0 3em;
     height: 3em;
     padding: .75em;
@@ -496,4 +524,7 @@ span.quadrant-input-3{
 }
 .pause-icon{
     background-image: url('../img/pause-mini-fill.svg');
+}
+.link-icon{
+    background-image: url('../img/links-line.svg');
 }

@@ -3,6 +3,7 @@ const newtabSection = {
     mounted: function (){
         this.updateTime();
         const i = setInterval(this.updateTime, 1000);
+        console.log(document.querySelector('#search-input'));
         document.querySelector('#search-input').focus();
     },
     data: function (){
@@ -149,11 +150,18 @@ const timerSection = {
         unfinishTasks: function () {
             const tasks = [];
             for(const task of this.$store.state.storage.tasks){
-                if(task.done == false){
+                if(task.done == 0){
                      tasks.push(task);
                 }
             }
             return tasks;
+        },
+        linkedTask: function () {
+            for(const task of this.$store.state.storage.tasks){
+                if(task.id == this.$store.state.timer.taskId){
+                    return [task];
+                }
+            }
         }
 
     },
@@ -256,7 +264,10 @@ const timerSection = {
                 <button v-show="showSubmitBtn" @click="submitTimer" id="submit-timer" class="checked-icon medium-btn"></button>
             </div>
             <div id="timer-history"></div>
-            <div class="unfinish-tasks" style="display:none">
+            <div class="linked-tasks" v-show="!showDoneBtn">
+                <div is="task-container" :tasks="linkedTask"></div>
+            </div>
+            <div class="unfinish-tasks" v-show="showDoneBtn">
                 <div is="task-container" :tasks="unfinishTasks"></div>
             </div>
         </div>`
@@ -280,6 +291,9 @@ const taskContainer = {
             computed: {
                 selected: function () {
                     return this.$store.state.selected.taskIds.includes(this.task.id);
+                },
+                linked: function () {
+                    return this.$store.state.timer.taskId == this.task.id;
                 }
             },
             methods: {
@@ -303,6 +317,13 @@ const taskContainer = {
                         this.$store.commit('selectTask', this.task.id);
                     }
                 },
+                linkTimer: function () {
+                    if(this.$store.state.timer.taskId != this.task.id){
+                        this.$store.commit('linkTimer', this.task.id);
+                    }else{
+                        this.$store.commit('linkTimer', -1);
+                    }
+                },
                 removeTask: function () {
                     this.$store.commit('removeTask', this.task.id);
                 }
@@ -314,6 +335,9 @@ const taskContainer = {
                     </div>
                     <div class="task-title-wr">
                         <div class="task-title">{{task.title}}</div>
+                    </div>
+                    <div class="link-wr icon-wr" :class="{linked: linked}">
+                        <div @click="linkTimer" class="link link-icon"></div>
                     </div>
                     <div class="note-wr icon-wr">
                         <div @click="takeNote" class="note note-icon"></div>

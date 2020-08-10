@@ -88,6 +88,9 @@ store = new Vuex.Store({
                 }
             }
         },
+        linkTimer: function (state, taskId) {
+            state.timer.taskId = taskId;
+        },
         editTimer: function (state) {
             state.timer.currentState = state.timer.state.EDITING;
         },
@@ -97,7 +100,6 @@ store = new Vuex.Store({
             timer.totalSec = newTimer.totalSec;
             timer.timeStr = newTimer.timeStr;
             timer.beginTimeStamp = 0;
-            timer.taskId = newTimer.taskId || -1;
         },
         startTimer: function (state, payload) {
             const timer = state.timer;
