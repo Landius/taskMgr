@@ -6,6 +6,10 @@
     --inset-box-shadow: inset 0 0 3px 0 #0003;
     --transition-duration-fast: 150ms;
 }
+@font-face{
+    font-family: 'Inconsolata';
+    src: local('Inconsolata'), url('/font/Inconsolata-Regular.ttf');
+}
 body{
     all: unset;
     font-family: sans-serif;
@@ -113,7 +117,7 @@ section#setting{
     padding: .5rem 1rem;
     color: #233;
     font-size: 2rem;
-    font-family: monospace;
+    font-family: 'Inconsolata';
     border-radius: .5rem;
     background-color: #fff;
 }
@@ -199,7 +203,8 @@ section#setting{
 #time-container > input.editing{
     display: block;
     font-size: 5rem;
-    font-family: monospace;
+    color: #233a;
+    font-family: 'Inconsolata';
 }
 #time-container > input.editing{
     padding: 0 .5em;
