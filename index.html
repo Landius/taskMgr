@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>To Do List</title>
+    <title>taskMgr</title>
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <script src="js/lib/vue.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/lib/vuex.js" type="text/javascript" charset="utf-8"></script>
@@ -16,8 +16,8 @@
       </main>
       <aside id="sidebar">
         <div id="operations">
-            <button id="addTask" v-show="showAddBtn" @click="addTask" class="small-btn plus-icon"></button>
-            <button id="removeTasks" v-show="showRemoveBtn" @click="removeTasks" class="small-btn trash-icon"></button>
+            <button id="addTask" :class="{show:showAddBtn}" @click="addTask" class="small-btn plus-icon"></button>
+            <button id="removeTasks" :class="{show:showRemoveBtn}" @click="removeTasks" class="small-btn trash-icon"></button>
         </div>
         <div id="tab-container" @click="switchSection">
             <button id="switch-newtab" class="small-btn newtab-icon"></button>

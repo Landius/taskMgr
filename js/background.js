@@ -56,7 +56,7 @@ function init(){
         ],
         timers: [],
         settings: {
-            firstSection: 'newtabSection',
+            firstSection: 'taskSection',
             "newtab": {
                 "engines": {
                     Baidu: 'https://www.baidu.com/s?ie=utf-8&wd=%s',
@@ -80,6 +80,9 @@ function init(){
         data = defaultData;
     });
 
+    chrome.browserAction.onClicked.addListener(tab=>{
+        browser.tabs.create({url: 'index.html'});
+    });
     chrome.runtime.onMessage.addListener(handleMsg);
     
     function handleMsg(msg, sender, sendResponse){

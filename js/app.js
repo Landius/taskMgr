@@ -177,11 +177,13 @@ let app = new Vue({
     computed: {
         sectionComponent: function (){return this.$store.state.app.currentSection},
         showAddBtn: function () {
+            console.log(this.$store.state.selected.taskIds.length == 0 && 
+                this.sectionComponent == 'taskSection');
             return this.$store.state.selected.taskIds.length == 0 && 
                 this.sectionComponent == 'taskSection';
         },
         showRemoveBtn: function (){
-            return show = this.$store.state.selected.taskIds.length > 0 && 
+            return this.$store.state.selected.taskIds.length > 0 && 
                 (this.sectionComponent == 'taskSection' || this.sectionComponent == 'noteSection');
         }
     },

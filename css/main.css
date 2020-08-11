@@ -84,7 +84,12 @@ textarea{
     transition-duration: var(--transition-duration-fast);
     opacity: 1;
 }
-
+#operations > button{
+    display: none;
+}
+#operations > button.show{
+    display: block;
+}
 /* main */
 main{
     flex: 1 0 600px;
