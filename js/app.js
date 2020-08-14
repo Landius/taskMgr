@@ -3,15 +3,13 @@ Vue.component('task-detail', taskDetail);
 Vue.component('notify-container', notifyContainer);
 // Vue.use(Vuex); // no need in if Vuex is declared via <script> element
 let store;
-chrome.runtime.sendMessage({cmd: 'getStorage'}, storage=>{
+chrome.runtime.sendMessage({cmd: 'getData'}, data=>{
 
 store = new Vuex.Store({
     strict: true,
     state: {
-        storage: storage,
-        app: {
-            currentSection: storage.settings.firstSection
-        },
+        data: data,
+        currentSection: data.settings.firstSection,
         selected: {
             taskIds: []
         },
@@ -31,7 +29,7 @@ store = new Vuex.Store({
             state: {EMPTY: 0, EDITING: 1, RUNNING: 2, PAUSED: 3, FINISHED: 4},
             currentState: 0,
             totalSec: 0,
-            timeStr: storage.settings.timer.default,
+            timeStr: data.settings.timer.default,
             beginTimeStamp: 0,
             taskId: -1,
             counterId: -1
@@ -49,14 +47,14 @@ store = new Vuex.Store({
             state.selected.taskIds.splice(index, 1);
         },
         doneTask: function(state, id){
-            for(let task of state.storage.tasks){
+            for(let task of state.data.tasks){
                 if(task.id == id){
                     task.done = (new Date ()).getTime();
                 }
             }
         },
         markTask: function (state, id) {
-            for(let task of state.storage.tasks){
+            for(let task of state.data.tasks){
                 if(task.id == id){
                     task.bookmark = true;
                 }
@@ -74,14 +72,14 @@ store = new Vuex.Store({
             state.taskDetail.showPopup = false;
         },
         modifyTask: function (state, payload){
-            Vue.set(state.storage.tasks, payload.index, {...payload.task});
+            Vue.set(state.data.tasks, payload.index, {...payload.task});
         },
         addTask: function (state, task){
-            state.storage.tasks.push({...task});
-            state.storage.settings.task.taskIndex += 1;
+            state.data.tasks.push({...task});
+            state.data.settings.task.taskIndex += 1;
         },
         removeTask: function (state, id) {
-            const tasks = state.storage.tasks;
+            const tasks = state.data.tasks;
             for(let i=0; i<tasks.length; i++){
                 if(tasks[i].id == id){
                     tasks.splice(i, 1);
@@ -122,7 +120,7 @@ store = new Vuex.Store({
         removeTimer: function (state, id) {
             const timer = state.timer;
             timer.currentState = timer.state.EMPTY;
-            timer.timeStr = state.storage.settings.timer.default;
+            timer.timeStr = state.data.settings.timer.default;
             timer.totalSec = 0;
             timer.beginTimeStamp = 0;
             timer.taskId = -1;
@@ -139,7 +137,7 @@ store = new Vuex.Store({
         submitTimer: function (state) {
             const timer = state.timer;
             timer.currentState = timer.state.EMPTY;
-            timer.timeStr = state.storage.s.timer.default;
+            timer.timeStr = state.data.s.timer.default;
             timer.taskId = -1;
             timer.timerId = -1;
             // todo
@@ -175,7 +173,7 @@ let app = new Vue({
     el: '#vue-app',
     store: store,
     computed: {
-        sectionComponent: function (){return this.$store.state.app.currentSection},
+        sectionComponent: function (){return this.$store.state.currentSection},
         showAddBtn: function () {
             console.log(this.$store.state.selected.taskIds.length == 0 && 
                 this.sectionComponent == 'taskSection');
@@ -215,13 +213,13 @@ let app = new Vue({
             }
         },
         addTask: function () {
-            this.$store.commit('showDetail', this.$store.state.storage.settings.task.taskIndex);
+            this.$store.commit('showDetail', this.$store.state.data.settings.task.taskIndex);
         },
         removeTasks: function (){
             let removeList = [];
-            for(const task of this.$store.state.storage.tasks){
+            for(const task of this.$store.state.data.tasks){
                 if(this.$store.state.selected.taskIds.includes(task.id)){
-                    // don't modify storage.task during iteration
+                    // don't modify data.task during iteration
                     removeList.push(task.id);
                     this.$store.commit('unselectTask', task.id);
                 }

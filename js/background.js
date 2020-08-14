@@ -1,10 +1,5 @@
 /**
- * a simple backend to
- *   keep the state of sections of app.js
- *   sync data between chrome.storage and app.js
- * 
- * Since chrome extension async api doesn't support promise, use callback
- * function instead of promise.
+ * a simple backend to keep state of app.js
  */
 
 init();
@@ -20,8 +15,7 @@ function init(){
                 "title": "重要，紧急",
                 "desc": "desc",
                 "note": "note",
-                "bookmark": false,
-                "timer": [0, 1]
+                "bookmark": false
             },
             {
                 "id": 1,
@@ -30,8 +24,7 @@ function init(){
                 "title": "重要，不急",
                 "desc": "desc",
                 "note": "note",
-                "bookmark": false,
-                "timer": [0, 1]
+                "bookmark": false
             },
             {
                 "id": 2,
@@ -40,8 +33,7 @@ function init(){
                 "title": "不重要，紧急",
                 "desc": "desc",
                 "note": "note",
-                "bookmark": false,
-                "timer": [0, 1]
+                "bookmark": false
             },
             {
                 "id": 3,
@@ -50,8 +42,7 @@ function init(){
                 "title": "不重要，不急",
                 "desc": "desc",
                 "note": "note",
-                "bookmark": false,
-                "timer": [0, 1]
+                "bookmark": false
             }
         ],
         timers: [],
@@ -75,8 +66,9 @@ function init(){
     };
     let data = null;
     getData(null).then(result=>{
-        console.log(result);
-        // data = Object.keys(result).length != 0 ? result : defaultData;
+        data = Object.keys(result).length != 0 ? result : defaultData;
+    }).catch(error=>{
+        console.error(error);
         data = defaultData;
     });
 
@@ -88,52 +80,29 @@ function init(){
     function handleMsg(msg, sender, sendResponse){
         console.log('msg:', msg);
         switch(msg.cmd){
-            case 'getStorage':
+            case 'getData':
                 sendResponse(data);
                 break;
-            case 'getTasks':
-                sendResponse(data.tasks);
-                break;
-            case 'getTimers':
-                sendResponse(data.timers);
-                break;
-            case 'getSettings':
-                sendResponse(data.settings);
-                break;
-            case 'setTasks':
-                data.tasks = msg.tasks;
-                setData({tasks: msg.tasks}).then(sendResponse);
-                break;
-            case 'setTimers':
-                data.timers = msg.timers;
-                setData({timers: msg.timers}).then(sendResponse);
-                break;
-            case 'setSettings':
-                data.settings = msg.settings;
-                setData({settings: msg.settings}).then(sendResponse);
-                break;
-        }
+       }
     }
 
+    /**
+     * wrap storage.get()/set() with Promise
+     */
     function getData(key){
         return new Promise(function (resolve, reject){
             storage.get(key, result=>{
                 const error = chrome.runtime.lastError;
-                error ? console.log(error) : resolve(result);
+                error ? reject(error) : resolve(result);
             });
         });
     }
 
-    /**
-     * wrap storage.set() with Promise
-     * success: resolve(true)
-     * fail: resolve(false)
-     */
     function setData(obj){
         return new Promise(function (resolve, reject){
             storage.set(obj, ()=>{
                 const error = chrome.runtime.lastError;
-                error ? console.log(error) & resolve(false) : resolve(true);
+                error ? reject(error) : resolve();
             });
         });
     }

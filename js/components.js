@@ -13,7 +13,7 @@ const newtabSection = {
     },
     computed: {
         engines: function (){
-            return this.$store.state.storage.settings.newtab.engines;
+            return this.$store.state.data.settings.newtab.engines;
         }
     },
     methods:{
@@ -64,7 +64,7 @@ const taskSection = {
                 'quadrant-2': [],
                 'quadrant-3': []
             };
-            for(let task of this.$store.state.storage.tasks){
+            for(let task of this.$store.state.data.tasks){
                 if(task.done == 0){
                     let key = 'quadrant-' + task.quadrant;
                     taskData[key].push(task);
@@ -86,14 +86,14 @@ const noteSection = {
     computed: {
         markedTasks: function () {
             console.log('markedTasks: data changed');
-            return this.$store.state.storage.tasks.filter(task=>{
+            return this.$store.state.data.tasks.filter(task=>{
                 return task.done > 0 && task.bookmark;
             }).sort((a, b)=>{
                 return b.done - a.done;
             });
         },
         leftTasks: function () {
-            return this.$store.state.storage.tasks.filter(task=>{
+            return this.$store.state.data.tasks.filter(task=>{
                 return task.done > 0 && !task.bookmark;
             }).sort((a, b)=>{
                 return b.done - a.done;
@@ -148,7 +148,7 @@ const timerSection = {
         },
         unfinishTasks: function () {
             const tasks = [];
-            for(const task of this.$store.state.storage.tasks){
+            for(const task of this.$store.state.data.tasks){
                 if(task.done == 0){
                      tasks.push(task);
                 }
@@ -156,7 +156,7 @@ const timerSection = {
             return tasks;
         },
         linkedTask: function () {
-            for(const task of this.$store.state.storage.tasks){
+            for(const task of this.$store.state.data.tasks){
                 if(task.id == this.$store.state.timer.taskId){
                     return [task];
                 }
@@ -373,7 +373,7 @@ const taskDetail = {
             this.task = {...this.template};
             let id = this.$store.state.taskDetail.taskId;
             this.task.id = id;
-            for(let task of this.$store.state.storage.tasks){
+            for(let task of this.$store.state.data.tasks){
                 if(task.id == id){
                     this.task = {...task};
                 }
@@ -389,7 +389,7 @@ const taskDetail = {
                 this.$store.commit('showNotify', {msg:'分类不能为空！'});
                 return ;
             }
-            const tasks = this.$store.state.storage.tasks;
+            const tasks = this.$store.state.data.tasks;
             let index = -1;
             for(let i=0; i<tasks.length; i++){
                 if(this.task.id == tasks[i].id){
