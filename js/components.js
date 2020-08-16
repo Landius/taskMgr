@@ -113,13 +113,11 @@ const noteSection = {
 const timerSection = {
     data: function () {
         return {
+            timeStr: this.$store.state.data.settings.timer.default,
             timeInput: ''
         };
     },
     computed: {
-        timeStr: function () {
-            return this.$store.state.timer.timeStr;
-        },
         showEditBtn: function () {
             const timer = this.$store.state.timer;
             return timer.currentState == timer.state.EMPTY 
@@ -171,7 +169,7 @@ const timerSection = {
         },
         doneEditing: function () {
             let totalSec = this.str2Time(this.timeInput || this.timeStr);
-            let timeStr = this.time2Str(totalSec);
+            let timing = this.time2Str(totalSec);
             this.timeInput = '';
             if(totalSec == null){
                 this.$store.commit('showNotify', {
@@ -186,37 +184,31 @@ const timerSection = {
                     cancelCallback: this.focusTimeInput
                 });
             }else{
-                let newTimer = {timeStr, totalSec};
-                this.$store.commit('addTimer', newTimer);
+                this.timeStr = timing;
+                this.$store.commit('addTimer', timing);
             }
         },
         startTimer: function () {
             const timer = this.$store.state.timer;
-            const totalSec = this.str2Time(timer.timeStr);
+            const remainingSec = timer.remainingSec != 0 ? timer.remainingSec : this.str2Time(timer.timing);
             const beginTimeStamp = (new Date()).getTime();
             const counterId = setInterval(()=>{
                 const elapsed = Math.round(((new Date()).getTime() - beginTimeStamp)/1000);
-                let timeStr = this.time2Str(totalSec - elapsed);
-                if(timer.timeStr.includes(':')){
-                    timeStr = timeStr.replace(':', ' ');
-                }
-                this.$store.commit('updateTimer', timeStr);
+                let timeStr = this.time2Str(remainingSec - elapsed);
+                this.timeStr = this.timeStr.includes(':') ? timeStr.replace(':', ' ') : timeStr;
                 if(timeStr == '00:00' || timeStr == '00 00'){
                     this.$store.commit('finishTimer');
                 }
             }, 1000);
-            if(timer.currentState == timer.state.PAUSED){
-                this.$store.commit('startTimer', {beginTimeStamp, counterId});
-            }else{
-                // init timer.totalSec if not start after paused
-                this.$store.commit('startTimer', {beginTimeStamp, counterId, totalSec});
-            }
+            this.$store.commit('startTimer', {beginTimeStamp, counterId});
         },
         pauseTimer: function () {
-            this.$store.commit('pauseTimer');
+            let remainingSec = this.str2Time(this.timeStr);
+            this.$store.commit('pauseTimer', remainingSec);
         },
         removeTimer: function () {
             this.$store.commit('removeTimer');
+            this.timeStr = this.$store.state.data.settings.timer.default;
         },
         submitTimer: function () {
             this.$store.commit('submitTimer');

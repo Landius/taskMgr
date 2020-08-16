@@ -28,8 +28,8 @@ store = new Vuex.Store({
         timer: {
             state: {EMPTY: 0, EDITING: 1, RUNNING: 2, PAUSED: 3, FINISHED: 4},
             currentState: 0,
-            totalSec: 0,
-            timeStr: data.settings.timer.default,
+            timing: data.settings.timer.default,
+            remainingSec: 0,
             beginTimeStamp: 0,
             taskId: -1,
             counterId: -1
@@ -37,7 +37,7 @@ store = new Vuex.Store({
     },
     mutations: {
         switchSection: function (state, section){
-            state.app.currentSection = section;
+            state.currentSection = section;
         },
         selectTask: function (state, id){
             state.selected.taskIds.push(id);
@@ -92,36 +92,28 @@ store = new Vuex.Store({
         editTimer: function (state) {
             state.timer.currentState = state.timer.state.EDITING;
         },
-        addTimer: function (state, newTimer) {
+        addTimer: function (state, timing) {
             const timer = state.timer;
+            timer.timing = timing;
             timer.currentState = timer.state.EMPTY;
-            timer.totalSec = newTimer.totalSec;
-            timer.timeStr = newTimer.timeStr;
-            timer.beginTimeStamp = 0;
         },
         startTimer: function (state, payload) {
             const timer = state.timer;
-            if(payload.totalSec != undefined){
-                timer.totalSec = payload.totalSec;
-            }
             timer.counterId = payload.counterId;
             timer.beginTimeStamp = payload.beginTimeStamp;
             timer.currentState = timer.state.RUNNING;
         },
-        updateTimer: function (state, timeStr) {
-            const timer = state.timer;
-            timer.timeStr = timeStr;
-        },
-        pauseTimer: function (state) {
+        pauseTimer: function (state, remainingSec) {
             const timer = state.timer;
             timer.currentState = timer.state.PAUSED;
+            timer.remainingSec = remainingSec;
             clearInterval(timer.counterId);
         },
         removeTimer: function (state, id) {
             const timer = state.timer;
             timer.currentState = timer.state.EMPTY;
-            timer.timeStr = state.data.settings.timer.default;
-            timer.totalSec = 0;
+            timer.timing = state.data.settings.timer.default;
+            timer.remainingSec= 0;
             timer.beginTimeStamp = 0;
             timer.taskId = -1;
             timer.timerId = -1;
@@ -131,16 +123,16 @@ store = new Vuex.Store({
             clearInterval(timer.counterId);
             timer.counterId = -1;
             timer.currentState = timer.state.FINISHED;
-            timer.totalSec = 0;
+            timer.remainingSec = 0;
             timer.beginTimeStamp = 0;
         },
         submitTimer: function (state) {
             const timer = state.timer;
+            state.data.push({id: timer.timerId, timing: timer.timing, taskId: timer.taskId});
             timer.currentState = timer.state.EMPTY;
-            timer.timeStr = state.data.s.timer.default;
+            timer.timing = state.data.s.timer.default;
             timer.taskId = -1;
             timer.timerId = -1;
-            // todo
         },
         showNotify: function (state, payload){
             const notify = state.notify;

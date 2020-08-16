@@ -45,7 +45,13 @@ function init(){
                 "bookmark": false
             }
         ],
-        timers: [],
+        timers: [
+            {
+                "id": 0,
+                "timing": "45:00",
+                "taskId": 0
+            }
+        ],
         settings: {
             firstSection: 'taskSection',
             "newtab": {
