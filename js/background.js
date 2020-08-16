@@ -84,6 +84,32 @@ function init(){
             case 'getData':
                 sendResponse(data);
                 break;
+            case 'addTask':
+                data.tasks.push(msg.task);
+                setData(data);
+                break;
+            case 'updateTask':
+                for(const i in data.tasks){
+                    if(data.tasks[i].id == msg.task.id){
+                        data.tasks[i] = msg.task;
+                        break;
+                    }
+                }
+                setData(data);
+                break;
+            case 'removeTask':
+                for(const i in data.tasks){
+                    if(data.tasks[i].id = msg.id){
+                        data.tasks.splice(i, 1);
+                        break;
+                    }
+                }
+                setData(data);
+                break;
+            case 'submitTimer':
+                data.timers.push(msg.timer);
+                setData(data);
+                break;
        }
     }
 

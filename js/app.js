@@ -128,9 +128,9 @@ store = new Vuex.Store({
         },
         submitTimer: function (state) {
             const timer = state.timer;
-            state.data.push({id: timer.timerId, timing: timer.timing, taskId: timer.taskId});
+            state.data.timers.push({id: timer.timerId, timing: timer.timing, taskId: timer.taskId});
             timer.currentState = timer.state.EMPTY;
-            timer.timing = state.data.s.timer.default;
+            timer.timing = state.data.settings.timer.default;
             timer.taskId = -1;
             timer.timerId = -1;
         },
@@ -157,6 +157,44 @@ store = new Vuex.Store({
             state.notify.title = '';
             state.notify.msg = '';
             state.notify.type = '';
+        }
+    }
+});
+
+// sync data after mutation
+store.subscribe((mutation, state)=>{
+    const mutationTypes = {
+        addTask: ['addTask'],
+        updateTask: ['doneTask', 'markTask', 'modifyTask'],
+        removeTask: ['removeTask'],
+        submitTimer: ['submitTimer']
+    };
+    const actions = {
+        addTask: payload=>{
+            browser.runtime.sendMessage({cmd: 'addTask', task: payload});
+        },
+        updateTask: payload=>{
+            const id = payload.id || payload;
+            for(const task of state.data.tasks){
+                if(task.id == id){
+                    browser.runtime.sendMessage({cmd: 'updateTask', task: task});
+                    break;
+                }
+            }
+        },
+        removeTask: payload=>{
+            browser.runtime.sendMessage({cmd: 'removeTask', id: payload});
+        },
+        submitTimer: payload=>{
+            const timer = state.data.timers.slice(-1); // get the last timer
+            browser.runtime.sendMessage({cmd: 'submitTask', timer: timer});
+        }
+    }
+    for(const type in mutationTypes){
+        if(mutationTypes[type].includes(mutation.type)){
+            actions[type](mutation.payload);
+            console.log('event: ', type);
+            break;
         }
     }
 });
