@@ -7,7 +7,6 @@ A simple daily task manager extension builded with Vue and Vuex, working in prog
 - merge SVGs to main.css by using `data:image/svg+xml` scheme to reduce request?
 - Use Vue `render` function instead of `eval` template compiling to avoid webextension CSP restriction
 - drag to sort task item.(splice then insert?)
-- remove newtab
 
 summary:
 
@@ -23,5 +22,5 @@ timer:
 setting:
 
 - custom CSS code
-- default timer target
-- a recycle bin to recover deleted task?(will be delete after 15 days)
+- default timer interval
+- a recycle bin to recover deleted task?(last for 15 days)

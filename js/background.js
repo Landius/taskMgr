@@ -54,11 +54,6 @@ function init(){
         ],
         settings: {
             firstSection: 'taskSection',
-            "newtab": {
-                "engines": {
-                    Baidu: 'https://www.baidu.com/s?ie=utf-8&wd=%s',
-                    Google: 'https://www.google.com/search?newwindow=1&q=%s'
-            }},
             "task": {
                 taskIndex: 4
             },

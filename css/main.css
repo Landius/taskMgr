@@ -105,56 +105,6 @@ section#setting{
     height: 100vh;
 }
 
-/* newtab */
-#search-form{
-    width: max-content;
-    margin: 2rem auto;
-}
-#time-widget{
-    display: block;
-    width: max-content;
-    padding-top: 8rem;
-    margin: auto;
-    opacity: .5;
-}
-#time-widget > time{
-    user-select: none;
-    padding: .5rem 1rem;
-    color: #233;
-    font-size: 2rem;
-    font-family: 'Inconsolata';
-    border-radius: .5rem;
-    background-color: #fff;
-}
-#search-input{
-    display: block;
-    font-size: 16px;
-    line-height: 1.5;
-    min-width: 25em;
-    outline: none;
-    border: none;
-    border-radius: 3px;
-    padding: 6px 8px;
-    margin: 4px;
-    box-shadow: 0 1px 2px 0px #0003;
-    opacity: .5;
-}
-#engine-buttons{
-    text-align: center;
-}
-#search-form button{
-    display: inline-block;
-    margin: 1rem;
-    opacity: .5;
-}
-#search-input:hover,
-#search-input:focus,
-#search-input:active,
-#search-form button:hover{
-    transition-duration: 150ms;
-    opacity: .8;
-}
-
 /* task */
 #task{
     display: grid;
@@ -502,9 +452,6 @@ span.quadrant-input-3{
 }
 .trash-icon{
     background-image: url('../img/delete-bin-line.svg');
-}
-.newtab-icon{
-    background-image: url('../img/home-6-line.svg');
 }
 .task-icon{
     background-image: url('../img/list-check-2.svg');

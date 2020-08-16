@@ -183,9 +183,6 @@ let app = new Vue({
             if(t.tagName === 'BUTTON'){
                 let section = null;
                 switch (t.id) {
-                    case 'switch-newtab':
-                        section = 'newtabSection';
-                        break;
                     case 'switch-task':
                         section = 'taskSection';
                         break;
@@ -222,7 +219,6 @@ let app = new Vue({
         }
     },
     components: {
-        newtabSection: newtabSection,
         taskSection: taskSection,
         noteSection: noteSection,
         timerSection: timerSection,
