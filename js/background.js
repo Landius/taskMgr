@@ -74,7 +74,7 @@ function init(){
     });
 
     chrome.browserAction.onClicked.addListener(tab=>{
-        browser.tabs.create({url: 'index.html'});
+        chrome.tabs.create({url: 'index.html'});
     });
     chrome.runtime.onMessage.addListener(handleMsg);
     
@@ -99,7 +99,7 @@ function init(){
                 break;
             case 'removeTask':
                 for(const i in data.tasks){
-                    if(data.tasks[i].id = msg.id){
+                    if(data.tasks[i].id == msg.id){
                         data.tasks.splice(i, 1);
                         break;
                     }

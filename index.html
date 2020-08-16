@@ -12,7 +12,10 @@
   <body>
     <div id="vue-app">
       <main>
-        <section :is="sectionComponent"></section>
+        <section :is="'taskSection'" :class="{hide: hideTaskSection}"></section>
+        <section :is="'noteSection'" :class="{hide: hideNoteSection}"></section>
+        <section :is="'timerSection'" :class="{hide: hideTimerSection}"></section>
+        <section :is="'settingSection'" :class="{hidee: hideSettingSection}"></section>
       </main>
       <aside id="sidebar">
         <div id="operations">

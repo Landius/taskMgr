@@ -185,7 +185,7 @@ const timerSection = {
         }
     },
     template: `
-        <div id="timer">
+        <section id="timer">
             <div id="time-container">
                 <time v-show="!showDoneBtn">{{timeStr}}</time>
                 <input v-show="showDoneBtn" v-model="timeInput" :style="'width:'+timeStr.length+'ch'" class="editing" :placeholder="timeStr"></input>
@@ -205,7 +205,7 @@ const timerSection = {
             <div class="unfinish-tasks" v-show="showDoneBtn">
                 <div is="task-container" :tasks="unfinishTasks"></div>
             </div>
-        </div>`
+        </section>`
 };
 const settingSection = {
     template: ``

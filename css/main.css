@@ -94,15 +94,15 @@ textarea{
 main{
     flex: 1 0 600px;
     min-width: 600px;
+    overflow-y: hidden;
 }
-section#newtab,
-section#to-do,
-section#timer,
-section#note,
-section#setting{
+section{
     box-sizing: border-box;
     width: 100%;
     height: 100vh;
+}
+section.hide{
+    display: none!important;
 }
 
 /* task */
@@ -149,7 +149,9 @@ section#setting{
 
 /* timer */
 #time-container{
-    margin: 25vh auto 2rem auto;
+    padding-top: 25vh;
+    padding-bottom: 2rem;
+    margin: auto;
     width: max-content;
 }
 #time-container > time,

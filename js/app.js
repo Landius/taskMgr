@@ -171,23 +171,23 @@ store.subscribe((mutation, state)=>{
     };
     const actions = {
         addTask: payload=>{
-            browser.runtime.sendMessage({cmd: 'addTask', task: payload});
+            chrome.runtime.sendMessage({cmd: 'addTask', task: payload});
         },
         updateTask: payload=>{
             const id = payload.id || payload;
             for(const task of state.data.tasks){
                 if(task.id == id){
-                    browser.runtime.sendMessage({cmd: 'updateTask', task: task});
+                    chrome.runtime.sendMessage({cmd: 'updateTask', task: task});
                     break;
                 }
             }
         },
         removeTask: payload=>{
-            browser.runtime.sendMessage({cmd: 'removeTask', id: payload});
+            chrome.runtime.sendMessage({cmd: 'removeTask', id: payload});
         },
         submitTimer: payload=>{
             const timer = state.data.timers.slice(-1); // get the last timer
-            browser.runtime.sendMessage({cmd: 'submitTask', timer: timer});
+            chrome.runtime.sendMessage({cmd: 'submitTask', timer: timer});
         }
     }
     for(const type in mutationTypes){
@@ -203,16 +203,19 @@ let app = new Vue({
     el: '#vue-app',
     store: store,
     computed: {
-        sectionComponent: function (){return this.$store.state.currentSection},
+        hideTaskSection: function (){return this.$store.state.currentSection != 'taskSection';},
+        hideNoteSection: function (){return this.$store.state.currentSection != 'noteSection';},
+        hideTimerSection: function (){return this.$store.state.currentSection != 'timerSection';},
+        hideSettingSection: function (){return this.$store.state.currentSection != 'settingSection';},
         showAddBtn: function () {
-            console.log(this.$store.state.selected.taskIds.length == 0 && 
-                this.sectionComponent == 'taskSection');
+            const currentSection = this.$store.state.currentSection;
             return this.$store.state.selected.taskIds.length == 0 && 
-                this.sectionComponent == 'taskSection';
+                currentSection == 'taskSection';;
         },
         showRemoveBtn: function (){
+            const currentSection = this.$store.state.currentSection;
             return this.$store.state.selected.taskIds.length > 0 && 
-                (this.sectionComponent == 'taskSection' || this.sectionComponent == 'noteSection');
+                (currentSection == 'taskSection' || currentSection == 'noteSection');
         }
     },
     methods: {
